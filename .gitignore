@@ -178,3 +178,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 temp.ipynb
+.virtual_documents/*
+.virtual_documents
+.vscode*
