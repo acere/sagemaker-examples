@@ -1,0 +1,586 @@
+{
+  "metadata": {
+    "version": 1
+  },
+  "nodes": [
+    {
+      "node_id": "660c3ee3-5207-4ded-b92f-7059831a7aed",
+      "type": "SOURCE",
+      "operator": "sagemaker.s3_source_0.1",
+      "parameters": {
+        "dataset_definition": {
+          "__typename": "S3CreateDatasetDefinitionOutput",
+          "datasetSourceType": "S3",
+          "name": "full_data.csv",
+          "description": null,
+          "s3ExecutionContext": {
+            "__typename": "S3ExecutionContext",
+            "s3Uri": "s3://sagemaker-ap-southeast-1-570358149193/music-streaming/data/processing/full_data.csv",
+            "s3ContentType": "csv",
+            "s3HasHeader": true
+          }
+        }
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "default",
+          "sampling": {
+            "sampling_method": "sample_by_ratio",
+            "sample_ratio": 0.06460757939298588
+          }
+        }
+      ]
+    },
+    {
+      "node_id": "d04eac2a-92a9-4539-b22f-f0f30aa29877",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.infer_and_cast_type_0.1",
+      "parameters": {},
+      "trained_parameters": {
+        "schema": {
+          "ts": "long",
+          "userId": "long",
+          "sessionId": "long",
+          "page": "string",
+          "auth": "string",
+          "method": "string",
+          "status": "long",
+          "level": "string",
+          "itemInSession": "long",
+          "location": "string",
+          "userAgent": "string",
+          "lastName": "string",
+          "firstName": "string",
+          "registration": "float",
+          "gender": "string",
+          "artist": "string",
+          "song": "string",
+          "length": "long"
+        }
+      },
+      "inputs": [
+        {
+          "name": "default",
+          "node_id": "660c3ee3-5207-4ded-b92f-7059831a7aed",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "d1b462ec-bbae-466d-afbd-39e5eab8dcc9",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "method"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "d04eac2a-92a9-4539-b22f-f0f30aa29877",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "4dfd1354-1904-4fa4-bff7-56a9e0e50d0a",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "status"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "d1b462ec-bbae-466d-afbd-39e5eab8dcc9",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "92ac4b28-bfb1-47bf-848a-de23735a2570",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "location"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "4dfd1354-1904-4fa4-bff7-56a9e0e50d0a",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "e1fd74c7-8240-4e99-876e-73b42a063e65",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "userAgent"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "92ac4b28-bfb1-47bf-848a-de23735a2570",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "1550cb2f-c734-46f8-bfdc-4f8614c30c09",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "lastName"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "e1fd74c7-8240-4e99-876e-73b42a063e65",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "32405a27-8e85-4c9b-8142-dd75d56fa75d",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "firstName"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "1550cb2f-c734-46f8-bfdc-4f8614c30c09",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "7b74dbbc-6f7e-4656-8f78-25272604bc45",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.handle_missing_0.1",
+      "parameters": {
+        "operator": "Drop missing",
+        "drop_missing_parameters": {
+          "dimension": "Drop Rows",
+          "drop_rows_parameters": {
+            "input_column": "userId"
+          }
+        },
+        "impute_parameters": {
+          "column_type": "Numeric",
+          "numeric_parameters": {
+            "strategy": "Approximate Median"
+          }
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "32405a27-8e85-4c9b-8142-dd75d56fa75d",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "82cb5ad3-3b9c-428d-9260-ce6efcd4c4f8",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.handle_missing_0.1",
+      "parameters": {
+        "operator": "Drop missing",
+        "drop_missing_parameters": {
+          "dimension": "Drop Rows",
+          "drop_rows_parameters": {
+            "input_column": "registration"
+          }
+        },
+        "impute_parameters": {
+          "column_type": "Numeric",
+          "numeric_parameters": {
+            "strategy": "Approximate Median"
+          }
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "7b74dbbc-6f7e-4656-8f78-25272604bc45",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "4097e58d-0373-46a1-8434-ef4491dd6eba",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pyspark_0.1",
+      "parameters": {
+        "code": "# Table is available as variable `df`\nimport pyspark.sql.functions as F\n\ndf = df.withColumn(\"ts\",F.to_timestamp(df[\"ts\"]/1000))"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "82cb5ad3-3b9c-428d-9260-ce6efcd4c4f8",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "5255a054-7976-4b53-9538-6e7051b62d47",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pyspark_0.1",
+      "parameters": {
+        "code": "# Table is available as variable `df`\nimport pyspark.sql.functions as F\n\ndf = df.withColumn(\"registration\",F.to_timestamp(df[\"registration\"]/1000))"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "4097e58d-0373-46a1-8434-ef4491dd6eba",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "e887e209-a524-4885-9378-ce5f9d524376",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.cast_single_data_type_0.1",
+      "parameters": {
+        "column": "registration",
+        "original_data_type": "Object",
+        "data_type": "date"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "5255a054-7976-4b53-9538-6e7051b62d47",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "28e00c0b-04ab-4593-8373-991364b33820",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pandas_0.1",
+      "parameters": {
+        "code": "# Table is available as variable `df`\ndf[\"date\"] = df[\"ts\"].dt.date\ndf[\"ts_dow\"] = df[\"ts\"].dt.weekday\ndf[\"ts_is_weekday\"] = (df[\"ts_dow\"].isin([0, 1, 2, 3, 4])).astype(int)"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "e887e209-a524-4885-9378-ce5f9d524376",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "952d5419-adb2-4a53-9b9c-087daac1dbc3",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pandas_0.1",
+      "parameters": {
+        "code": "# Table is available as variable `df`\ndf[\"churned_event\"] = (df[\"page\"]==\"Cancellation Confirmation\").astype(int)\ndf[\"user_churned\"] = df.groupby(\"userId\")[\"churned_event\"].transform(\"max\")"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "28e00c0b-04ab-4593-8373-991364b33820",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "168dd2f7-016c-48b4-be60-08eaead151c6",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pandas_0.1",
+      "parameters": {
+        "code": "# Table is available as variable `df`\nevents_list = [\"NextSong\",\n               \"Thumbs Down\",\n               \"Thumbs Up\",\n               \"Add to Playlist\",\n               \"Roll Advert\",\n               \"Add Friend\",\n               \"Downgrade\",\n               \"Upgrade\",\n               \"Error\",\n              ]\ndf[\"events\"] = (\n    df.page\n    .str.lower()\n    .str.replace(\" \", \"_\")\n    .where(df.page.isin(events_list))\n)"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "952d5419-adb2-4a53-9b9c-087daac1dbc3",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "f74cc556-a02d-4ec1-b35d-5bfadb814cec",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.encode_categorical_0.1",
+      "parameters": {
+        "operator": "One-hot encode",
+        "one_hot_encode_parameters": {
+          "invalid_handling_strategy": "Skip",
+          "drop_last": false,
+          "output_style": "Columns",
+          "input_column": "events"
+        },
+        "ordinal_encode_parameters": {
+          "invalid_handling_strategy": "Replace with NaN"
+        }
+      },
+      "trained_parameters": {
+        "one_hot_encode_parameters": {
+          "_hash": -6254551675464078000,
+          "string_indexer_model": "P)h>@6aWAK2mnGP%2GaUfx_Pa003kG000vJ003=ebYWy+bYU-WVRCdWFfcGMFm;a0PQx$|MfZHhtW(QPXi&R_O&1kNAhyxSp0rl|Vr*BGD*uiN5-JjG@7#0lTtHb&2{sUTFEFAykVp~vD4Z1|VJ=MKIkWNmt=IHUybGEvG?0y>l+i`lEc>==*X#avb=NN&nE6-YWP-2ePDmja=sx^HR<0Ob!(YmwmvTg0$&OlGE0ssL!)m^O@v-FlU@Jo>@;TLeDETMM<l>;h*GC8R+S1ma(9Rp_Xd+AvXd1ED{B&i#HvIp}Fnsr_JI$p>*2FL8NEI8I-U@kjexRiOSSRMdFikg~P)h>@6aWAK2mnGP%2KA%&e#qB000aC000;O003=ebYWy+bYU+paA9(EEif=JFfcA-a$`#_N@ieSU}8Abm}>_BP)h>@6aWAK2mnJQ%2GTML2cy$008m=002k;003lRbYU-WVRCdWFfcGMFfBASW;J9vVL2@`HZV9XG%`0~En+k<Vl6jeH)S|wV>4wrVmK{hFfcGKb8ca9aCt6pVRCVGWps^FO^ee&7@myVkL?x|?34s@D1k0rs39?JOv_#tJctKb#KVF}nRF)I;AE1WnYfnHn|J?#cohGLf5PA4*-4w#Rax*d^S;mXe$4YQ=Vvc{1kfjlKEN^R>9C2Kb_hnTvRDaBsM*1UEE17YP5=NOjn55zHNJf90H}jrqpeR)-z%B()uE2nWtqitQ5N?M>jLxp8mcC!d{HpGW~o#iaQM*NPdu`wU6NmO<Ehbpu-j+YBat(<z~mhj%GjJzA#%~uQ|bpHXt8HqSzz&YA(xjl!w7;YG>;gLDU)YH;5CA%38n|;LA7pAw<x0-<?3$=b%(#nApm`7*_M6Wwo%s_Hi30<d+x63rudHp!G5p*1NOhe<M!!Y_F1;}7of_wsulukY?`@PxwybuiMtc!YTYu;x!DL@&-H+L@=t}lVy+IZN~&CuU%MGqm|%s?Z^p(^>w-FSM=DV+l{0pdlrkcn`Rk3taaK{c1ZjR>|EmwzaINdrf3VfAl&>_r%(=oTmoG}joVk7h-QEFmo#2?!Jur4|B<Nk+?VBwypVtB(Wnxe}GVopBbN#_6E>lJZUNR%eBp@_N;wVbUlOzhmkc2@v^P|b*An=k&7?atFW!u{ENZWp{fBR2RO9KQH0000807E3oQZgv!=Mn$_01yBG08Ib@0AyiwVJ|LlVRCdWFfcGMFfBASW;J9vVL2@`HZV9XG%`0~En+k<Vl6jeH)S|wV>4wrVmK{hFfcGKb8ca9aCt6pVRCVGWpplMa$`#_N@ieSU}8w}KXT|%y=)o)P)h*<6ay3h000O8LL|ykK5c=*-v9srWB~vG6951J0000000000q=5hc003=ebYWy+bYU-WVRCdWFfcGMFi=YY0u%!j00008074|nQl`?**bV>y01N;C02lxO00000000000HlEs0RRAPWprU=VRT_HE^uLTbS*G2FfcGKV{&6qO928D0~7!N00;m>B+61e5<zX{0RRB<0ssI=00000000000001_fm8ti0AyiwVJ~oDa&#>)FfcGMEi^S|HDozqIW03bFgPtVGB;r@Vl*&fEjM8|WjJMHGi5nqI4xr^FfcB2Zeeh6c`k5aa&dKKbWlqH0u%!j0000807E3oQZgv!=Mn$_01yBG08Ib@00000000000HlGR0{{SIVRT_HE^uLTbS*G2FfcGJG&N>5WI16uEi*PSI4v|XH(@PeG%#W<H(@trIAvoqWjSIvEn_e+FfMa$VQ_GHE^uLTadl;ME@N_IP)h{{000001ONm8cmV(a90ULW000",
+          "one_hot_encoder_model": "P)h>@6aWAK2mnJQ%2G<H0z}jR003zL000vJ003=ebYWy+bYU-WVRCdWFfcGMFm;Z*PQySDMSDJDYG>ux)*`z_NFWhGMY|e#$HZb^nw_N}%D=M-0wqP7DX#84XAUqs%o!$#{Gl-6yeE|t@~84nEre2-)N7!pD34)|mUvf>g9c>vlm&f)X{)=w8%I6p`>k%^yniRoYYdg#t5&re^xt9A)?Ha`4X=<!cXk|F9EQHfTB&>VJFMgbtRWS7h^}sgd@^%9$zzfK*!<<@gtr{i3ub|7L6@n4JqGLOIeeizn~6Cx9BY#nEKc4oWS7|69~$%9yRr$F+p^=`4^T@31QY-O00;m>B+63vIdKaP0000C0000O0001OWprU=VRT_HE^uLTbS*G2FfcGKV{&6lE=p!#U|?c!VOr@008mQ<1QY-O00;m>B+62kn`U-`0RR9n0ssI=0001FVRT_HaA9(EEif=JFfc7-V`OGHVP#=0H92EBEi`2|G%aE^Vlpi>W@KbHWo0%uGh{d|V=yo<E^}^SaBz7paA9(Bb!BvYQeA7?Fcej^EG?sb=!1+5eh7kw6kK7?iR*+uv~OjMQP#edQj}Qg%w#)}l#MhE>}T``_J{Q5qh)0<2`=~JoO{m|x;+0L6GRy4gam`rBCUWnKOuxR)<fODA~*+U80-hQU@=-{3HHBU?AeJhKkw}Lhb#rbsE_IXSU7oKoB37oAT6|Sp?;G#bzvO<2tGt~M`~Hh${`Q?fgf~s188>GLVot1ye7SZ3HGq}=>2JQc2EDK)em4F7_+K8dKmd3rM0=|Vj@5!U+d++q_IU^(T@p_c!cQDKL|V39GvM)I&SLUyp&Gl!U_7+STHxANH%2Fnc3K}kf}oI+_K@#f>okimENrZhz;Y7DU1<wNN-oW-eijkNYX%lTvtvMmHjr;nhllERxU$UK_o^RpfFg5>{SyqUM_E!h<@2BJ}ymryJ9=$am3?xcQh+>-j38DSG^>cN{zBi<tHjj(=<<$bP#8~&q)%gUOLJLM}82%3qCgxx`e;-0#Hi>1QY-O00;m>B+624+2$M)0000G0000@0001FVRT_HE^uLTbS*G2FfcGJWMgDzIALXBEj2k~IW070HZ(0_HDWR?G-hOEH)UluH#1~7En_e+FfMa$VQ_GHE^uLTadl;ME@N_IOD;-gU|?WkIM%^xcJ7~*830gA0Rj{Q6aWAK2mnJQ%2G<H0z}jR003zL000vJ0000000000005+c00000ZDn*}WMOn+FK}UUbS*G2FfcGsO928D0~7!N00;m>B+63vIdKaP0000C0000O00000000000001_fdv5o0BvP-VPs)+VJ|LlVRCdWFfcGMFfL<qV^B*00u%!j0000807E3oQkR=%c7g!_05Ado07w7;00000000000HlFQ0RRAGVRT_HaA9(EEif=JFfc7-V`OGHVP#=0H92EBEi`2|G%aE^Vlpi>W@KbHWo0%uGh{d|V=yo<E^}^SaBz7paA9(Bb!Bu=O928D0~7!N00;m>B+624+2$M)0000G0000@00000000000001_fiVLB0AyiwVJ|LlVRCdWFfcGMFfC+bWM(*FWnnEfIb%63G-Wn4En+odGA%S_WMnsGWi~f6WH>EjFfcGKb8ca9aCt6pVRCVGWpplMa$`_S1qJ{B000C41ORve006E700000"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "168dd2f7-016c-48b4-be60-08eaead151c6",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "d5c36bc5-3884-45bd-a435-2a76e8a0310e",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.custom_pandas_0.1",
+      "parameters": {
+        "code": "import pandas as pd\n\nbase_df = (\n    df.groupby([\"userId\", \"date\", \"ts_is_weekday\"])\n    .agg({\"page\": \"count\"})\n    .groupby([\"userId\", \"ts_is_weekday\"])[\"page\"]\n    .mean()\n    .unstack(fill_value=0)\n    .reset_index()\n    .rename(columns={0: \"average_events_weekend\", 1: \"average_events_weekday\"})\n)\n\n\n\nbase_df_daily = (\n    df.groupby([\"userId\", \"date\"])\n    .agg({\n        \"page\": \"count\", \n        \"events_nextsong\": \"sum\", \n        \"events_roll_advert\": \"sum\", \n        \"events_error\": \"sum\"\n    })\n    .reset_index()\n)\n\nfeature34 = (\n    base_df_daily.groupby([\"userId\", \"date\"])\n    .tail(7)\n    .groupby([\"userId\"])\n    .agg({\"events_nextsong\": \"sum\", \"events_roll_advert\": \"sum\", \"events_error\": \"sum\"})\n    .reset_index()\n    .rename(\n        columns={\n            \"events_nextsong\": \"num_songs_played_7d\",\n            \"events_roll_advert\": \"num_ads_7d\",\n            \"events_error\": \"num_error_7d\",\n        }\n    )\n)\nfeature5 = (\n    base_df_daily.groupby([\"userId\", \"date\"])\n    .tail(30)\n    .groupby([\"userId\"])\n    .agg({\"events_nextsong\": \"sum\"})\n    .reset_index()\n    .rename(columns={\"events_nextsong\": \"num_songs_played_30d\"})\n)\nfeature6 = (\n    base_df_daily.groupby([\"userId\", \"date\"])\n    .tail(90)\n    .groupby([\"userId\"])\n    .agg({\"events_nextsong\": \"sum\"})\n    .reset_index()\n    .rename(columns={\"events_nextsong\": \"num_songs_played_90d\"})\n)\n# num_artists, num_songs, num_ads, num_thumbsup, num_thumbsdown, num_playlist, num_addfriend, num_error, user_downgrade,\n# user_upgrade, percentage_ad, days_since_active\nbase_df_user = (\n    df.groupby([\"userId\"])\n    .agg(\n        {\n            \"page\": \"count\",\n            \"events_nextsong\": \"sum\",\n            \"artist\": \"nunique\",\n            \"song\": \"nunique\",\n            \"events_thumbs_down\": \"sum\",\n            \"events_thumbs_up\": \"sum\",\n            \"events_add_to_playlist\": \"sum\",\n            \"events_roll_advert\": \"sum\",\n            \"events_add_friend\": \"sum\",\n            \"events_downgrade\": \"max\",\n            \"events_upgrade\": \"max\",\n            \"events_error\": \"sum\",\n            \"date\": \"max\",\n            \"registration\": \"min\",\n            \"user_churned\": \"max\",\n        }\n    )\n    .reset_index()\n)\n\nbase_df_user[\"percentage_ad\"] = base_df_user[\"events_roll_advert\"] / base_df_user[\"page\"]\nbase_df_user[\"days_since_active\"] = (\n    base_df_user[\"date\"] - base_df_user[\"registration\"]\n).dt.days\n# repeats ratio\nbase_df_user[\"repeats_ratio\"] = 1 - base_df_user[\"song\"] / base_df_user[\"events_nextsong\"]\n\n# num_sessions, avg_time_per_session, avg_events_per_session,\nbase_df_session = (\n    df.groupby([\"userId\", \"sessionId\"])\n    .agg({\"length\": \"sum\", \"page\": \"count\", \"date\": \"min\"})\n    .reset_index()\n)\nbase_df_session[\"prev_session_ts\"] = base_df_session.groupby([\"userId\"])[\"date\"].shift(1)\nbase_df_session[\"gap_session\"] = (\n    base_df_session[\"date\"] - base_df_session[\"prev_session_ts\"]\n).dt.days\nuser_sessions = (\n    base_df_session.groupby(\"userId\")\n    .agg({\"sessionId\": \"count\", \"length\": \"mean\", \"page\": \"mean\", \"gap_session\": \"mean\"})\n    .reset_index()\n    .rename(\n        columns={\n            \"sessionId\": \"num_sessions\",\n            \"length\": \"avg_time_per_session\",\n            \"page\": \"avg_events_per_session\",\n            \"gap_session\": \"avg_gap_between_session\",\n        }\n    )\n)\n\n# merge features together\nbase_df[\"userId\"] = base_df[\"userId\"]#.astype(\"int\")\nfinal_feature_df = base_df.merge(feature34, how=\"left\", on=\"userId\")\nfinal_feature_df = final_feature_df.merge(feature5, how=\"left\", on=\"userId\")\nfinal_feature_df = final_feature_df.merge(feature6, how=\"left\", on=\"userId\")\nfinal_feature_df = final_feature_df.merge(user_sessions, how=\"left\", on=\"userId\")\nfinal_feature_df = final_feature_df.merge(base_df_user, how=\"left\", on=\"userId\")\n\nfinal_feature_df = final_feature_df.fillna(0)\n# renaming columns\nfinal_feature_df.columns = [\n    \"userId\",\n    \"average_events_weekend\",\n    \"average_events_weekday\",\n    \"num_songs_played_7d\",\n    \"num_ads_7d\",\n    \"num_error_7d\",\n    \"num_songs_played_30d\",\n    \"num_songs_played_90d\",\n    \"num_sessions\",\n    \"avg_time_per_session\",\n    \"avg_events_per_session\",\n    \"avg_gap_between_session\",\n    \"num_events\",\n    \"num_songs\",\n    \"num_artists\",\n    \"num_unique_songs\",\n    \"num_thumbs_down\",\n    \"num_thumbs_up\",\n    \"num_add_to_playlist\",\n    \"num_ads\",\n    \"num_add_friend\",\n    \"num_downgrade\",\n    \"num_upgrade\",\n    \"num_error\",\n    \"ts_date_day\",\n    \"registration\",\n    \"user_churned\",\n    \"percentage_ad\",\n    \"days_since_active\",\n    \"repeats_ratio\",\n]\n# only keep created feature columns\ndf = final_feature_df[\n    [\n        \"userId\",\n        \"user_churned\",\n        \"average_events_weekend\",\n        \"average_events_weekday\",\n        \"num_songs_played_7d\",\n        \"num_ads_7d\",\n        \"num_error_7d\",\n        \"num_songs_played_30d\",\n        \"num_songs_played_90d\",\n        \"num_sessions\",\n        \"avg_time_per_session\",\n        \"avg_events_per_session\",\n        \"avg_gap_between_session\",\n        \"num_events\",\n        \"num_songs\",\n        \"num_artists\",\n        \"num_thumbs_down\",\n        \"num_thumbs_up\",\n        \"num_add_to_playlist\",\n        \"num_ads\",\n        \"num_add_friend\",\n        \"num_downgrade\",\n        \"num_upgrade\",\n        \"num_error\",\n        \"percentage_ad\",\n        \"days_since_active\",\n        \"repeats_ratio\",\n    ]\n]"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f74cc556-a02d-4ec1-b35d-5bfadb814cec",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "c6201ac1-98b0-40ff-ad23-5f0014ed39e1",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.target_leakage_0.1",
+      "parameters": {
+        "name": "Target Leakage 01",
+        "max_features": "30",
+        "problem_type": "classification",
+        "target": "user_churned"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "d5c36bc5-3884-45bd-a435-2a76e8a0310e",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "c2492b85-740e-4fb4-b581-ed15b3a3db65",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.manage_columns_0.1",
+      "parameters": {
+        "operator": "Drop column",
+        "drop_column_parameters": {
+          "column_to_drop": "days_since_active"
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "d5c36bc5-3884-45bd-a435-2a76e8a0310e",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "7b115641-07f9-48f8-a290-5c0e1f9c3db2",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.target_leakage_0.1",
+      "parameters": {
+        "name": "Target Leakage 02",
+        "max_features": "30",
+        "problem_type": "classification",
+        "target": "user_churned"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "c2492b85-740e-4fb4-b581-ed15b3a3db65",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "2ad8e46b-116e-45ef-99a0-9434bf8c0cc8",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.quick_model_0.1",
+      "parameters": {
+        "name": "Quick Model 01",
+        "label": "user_churned"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "c2492b85-740e-4fb4-b581-ed15b3a3db65",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "8413e480-62a5-4a57-b7c6-7ff309217dfe",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.bias_report_0.1",
+      "parameters": {
+        "name": "Bias 01",
+        "is_label_value_or_threshold": "value",
+        "is_facet_value_or_threshold": "threshold",
+        "default_metrics": {
+          "CI": true,
+          "DPL": true,
+          "JS": true,
+          "CDDL": false
+        },
+        "group_name": "",
+        "show_additional_metrics": "no",
+        "label_values": "1",
+        "facet_threshold": "3",
+        "label_name": "user_churned",
+        "facet_name": "average_events_weekend",
+        "metrics": {
+          "CI": true,
+          "DPL": true,
+          "JS": true,
+          "CDDL": false
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "c2492b85-740e-4fb4-b581-ed15b3a3db65",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    }
+  ]
+}
